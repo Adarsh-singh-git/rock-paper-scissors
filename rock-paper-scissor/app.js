@@ -9,17 +9,8 @@ let getComputerChoice = function () {
     }
 }
 
-let getHumanChoice = function () {
-    let userInput = prompt("Enter the choice('Rock' , 'Paper' , 'Scissors')").toLowerCase()
-    if (userInput === "rock") {
-        return userInput
-    } else if (userInput === "paper") {
-        return userInput
-    } else {
-        return userInput
-    }
 
-}
+
 
 let computerScore = 0;
 let humanScore = 0;
@@ -42,26 +33,52 @@ let playRound = function (humanChoice, computerChoice) {
     }
 
     console.log(`Score => HumanScore : ${humanScore} , ComputerScore : ${computerScore}`)
-}
 
 
-
-
-let playGame = function () {
-    for (let i = 1; i <= 5; i++) {
-        playRound(getHumanChoice(), getComputerChoice())
+    if (humanScore === 5) {
+        console.log("hurray !! humans wins")
+        return;
+    } else if (computerScore === 5) {
+        console.log(` hurray !! computer Wins`)
+        return;
+    } else if (humanScore > 5 || computerScore > 5) {
+        console.log(humanScore > 5 ? "humanWins!!" : "computerWins!!")
     }
-   if (humanScore > computerScore) {
-    console.log("Human Wins!!")
-   }else if(computerScore > humanScore){
-    console.log("Computer Wins !!")
-   }else{
-    console.log("It\'s a tie!!")
-   }
-
+    return;
 }
 
-playGame()
+
+
+
+const buttons = document.querySelectorAll(".choiceButton")
+buttons.forEach(button => {
+    button.addEventListener('click', (event) => {
+        if (humanScore >= 5 || computerScore >= 5) {
+            event.preventDefault();
+            button.disabled = true
+        } else {
+            const userInput = event.target.getAttribute("data-choice")
+            playRound(userInput, getComputerChoice())
+        }
+    })
+
+});
+
+
+const container = document.querySelector('body')
+const content = document.createElement('div')
+content.classList.add('content')
+content.textContent = "Results :"
+container.appendChild(content)
+
+
+console.log = function (message) {
+    const para = document.createElement('p');
+    para.textContent = `${message}`;
+    document.body.appendChild(para)
+}
+
+
 
 
 
